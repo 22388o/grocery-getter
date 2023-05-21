@@ -1,24 +1,18 @@
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { library, icon } from '@fortawesome/fontawesome-svg-core';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+library.add(faMagnifyingGlass);
+
+const headerContainer = document.querySelector<HTMLDivElement>('.header-container')!
+const searchDivContainer = document.createElement('div');
+
+searchDivContainer.innerHTML = icon({ prefix: 'fas', iconName: 'magnifying-glass' }).html;
+headerContainer.appendChild(searchDivContainer);
+
+
+document.querySelector<HTMLDivElement>('#mainContent')!.innerHTML = `
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
+    <i class="fa-magnifying-glass"></i>
   </div>
 `
-
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
