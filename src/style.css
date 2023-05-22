@@ -62,6 +62,24 @@ header {
   padding: 0.25rem 0.75rem;
 }
 
+.header-container .search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  height: 25px;
+}
+
+.search-btn {
+  width: 35px;
+  height: 35px;
+  margin-left: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 main {
   grid-area: main;
 }
