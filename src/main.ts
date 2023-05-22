@@ -3,23 +3,20 @@ import { Web5 } from '@tbd54566975/web5';
 import { library, icon } from '@fortawesome/fontawesome-svg-core';
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ListStore } from './store/listStore';
+import { Item } from './store/listStore';
+import { updateList } from './scripts/updateList';
 
 library.add(faMagnifyingGlass, faPlus);
 
-let myDid: string;
-let web5: Web5;
-let record;
-const getMyDid = async () => {
-  const {did: myDid } = await Web5.connect();
-  console.log('myDid', myDid);
-  return myDid;
-}
+const {web5, did: myDid } = await Web5.connect();
+console.log('myDid', myDid);
 
-getMyDid(); 
+
+
 
 const listStore = new ListStore('gg-list-store');
 
-const addItemToList = async (text: string) => {
+const addItemToList = async (text: string):Promise<void> => {
   const item = {
     id: Date.now().toString(),
     body: text,
@@ -31,7 +28,8 @@ const addItemToList = async (text: string) => {
       dataFormat: "application/json",
     }
   });
-  console.log('record', record?.data.json());
+  console.log('record', await record?.data.text());
+  listStore.add(await record?.data.json() as Item);
 };
 
 //Header and serach
@@ -39,7 +37,12 @@ const headerContainer = document.querySelector<HTMLDivElement>('.header-containe
 const searchDivContainer = document.createElement('div');
 const searchInput = document.createElement('input');
 const searchBtn = document.createElement('button');
-searchBtn.addEventListener('click', addItemToList.bind(null, searchInput.value));
+
+searchBtn.addEventListener('click', async () => {
+  await addItemToList(searchInput.value);
+  searchInput.value = '';
+  updateList();
+});
 
 
 searchBtn.classList.add('search-btn');
@@ -72,11 +75,6 @@ headerContainer.appendChild(searchDivContainer);
 const mainElement = document.querySelector<HTMLDivElement>('#mainContent')!;
 // mainElement.innerHTML = `updatedText: ${updatedText}`;
 // console.log('updateResult', await record?.data.text());
+const hi = `are you thinking through this?`;
 
-const listOfItems = document.createElement('ul');
-listOfItems.classList.add('list-of-items');
-listItems.forEach((item) => {
-  console.log('item', item);
-});
-
-document.querySelector<HTMLDivElement>('#mainContent')!.appendChild(listOfItems);
+document.querySelector<HTMLDivElement>('#mainContent')!.innerHTML = hi;

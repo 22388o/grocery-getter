@@ -1,28 +1,25 @@
-import { Web5 } from "@tbd54566975/web5";
-import { Item, ListStore } from "../store/listStore";
+import { ListStore } from "../store/listStore";
 
 const listStore = new ListStore('gg-list-store');
 
-const {web5} = await Web5.connect();
 
 
 
-export const updateList = async () => {
-    const listOfItems = document.createElement('ul');
-    listOfItems.classList.add('list-of-items');
-    const {records} = await web5.dwn.records.query({  
-        message: {
-            filter: {
-                schema: 'http://some-schema-registry.org/grocery-item'
-            },
-            dateCreated: 'desc'
-        }
+const createElements = (type: string, className: string,) => {
+    const element = document.createElement(type);
+    element.classList.add(className);
+    return element;
+};
+
+export const updateList = async ():Promise<void> => {
+    const main = document.querySelector<HTMLDivElement>('#mainContent')!;
+    main.innerHTML = '';
+    const ul = createElements('ul', 'grocery-list');
+    debugger;
+    listStore.list.map((item) => {
+        const li = createElements('li', 'grocery-list-item');
+        li.innerHTML = item.body;
+        ul.appendChild(li);
     });
-
-    for(let record of records || []) {
-        const data = await record.data.json();
-        const item = {record, data, id: record.id};
-        
-        listStore.add(item);
-    }
+    main.appendChild(ul);
 };

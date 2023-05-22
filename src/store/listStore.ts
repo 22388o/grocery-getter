@@ -33,7 +33,7 @@ export class ListStore extends EventTarget {
 
   // mutators
   add(item: Item): void { 
-    this.list.push({ ...item, date: Date.now() });
+    this.list.push( item );
     this._saveNotes();
   }
   remove({ id }: { id: string }) { 
