@@ -1,6 +1,7 @@
 // import Item from const/interfaces
 export type Item = {
-  id: string;
+  record: any| undefined;
+  id: string | undefined;
   body: string;
   isMarkedOut: boolean;
   date: number;

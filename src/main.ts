@@ -18,7 +18,6 @@ const listStore = new ListStore('gg-list-store');
 
 const addItemToList = async (text: string):Promise<void> => {
   const item = {
-    id: Date.now().toString(),
     body: text,
     date: Date.now(),
     isMarkedOut: false,
@@ -29,9 +28,12 @@ const addItemToList = async (text: string):Promise<void> => {
       dataFormat: "application/json",
     }
   });
-  listStore.add(await record?.data.json() as Item);
-  console.log(listStore.list)
+  const data = await record?.data.json();
+  const groceryItem = {record, data, id: record?.id};
+  listStore.add(groceryItem);
+  console.log('listStore.list', listStore.list);
   updateList(listStore.list);
+
 };
 
 //Header and serach
