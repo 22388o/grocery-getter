@@ -77,5 +77,5 @@ const hi = `are you thinking through this?`;
 if (listStore.list.length === 0) {
   document.querySelector<HTMLDivElement>('#mainContent')!.innerHTML = hi;
 } else {
-  updateList();
+  updateList(listStore.list);
 }

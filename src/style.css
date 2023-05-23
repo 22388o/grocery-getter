@@ -89,6 +89,11 @@ footer {
 }
 
 
+.marked-out {
+  text-decoration: line-through;
+  color: #777;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;

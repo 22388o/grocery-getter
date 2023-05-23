@@ -2,6 +2,7 @@
 export type Item = {
   id: string;
   body: string;
+  isMarkedOut: boolean;
   date: number;
 }
   
