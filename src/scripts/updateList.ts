@@ -1,27 +1,28 @@
 import { Item, ListStore } from "../store/listStore";
 import { createElements } from "../ui-lib/createElement";
 import { Web5 } from "@tbd54566975/web5";
-let web5: Web5;
+
 const listStore = new ListStore('gg-list-store');
+const {web5} = await Web5.connect();
+
 
 const changeItemStatus = async (item):Promise<void> => {
     let toggledItem;
     let updatedToggledItem;
-    debugger;
-    const itemElement = document.getElementById(item.id)!;
+    const itemElement = document.getElementById(item.target.id)!;
     
     for(let gItem of listStore.list) {
-        if (gItem.id === item.id) {
+        if (gItem.id === item.target.id) {
             toggledItem = gItem;
             toggledItem.data.isMarkedOut = !toggledItem.data.isMarkedOut;
             updatedToggledItem = {...toggledItem.data};
             break;
         }
     }
-
+    console.log('toggledItem', toggledItem);
     const { record } = await web5.dwn.records.read({
         message: {
-          recordId: toggledTodo.id,
+          recordId: toggledItem.id,
         }
       });
 
@@ -57,7 +58,7 @@ export const updateList = (updatedList: Item[]) => {
                     { name: 'isMarkedOut', value: item.data.isMarkedOut.toString() },
                 ]
             });
-            li.addEventListener('click', changeItemStatus.bind());
+            li.addEventListener('click', changeItemStatus.bind(item.data));
             li.innerHTML = item.data.body;
             ul.appendChild(li);
     });
