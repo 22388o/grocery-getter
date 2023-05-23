@@ -28,8 +28,9 @@ const addItemToList = async (text: string):Promise<void> => {
       dataFormat: "application/json",
     }
   });
-  console.log('record', await record?.data.text());
   listStore.add(await record?.data.json() as Item);
+  console.log(listStore.list)
+  updateList(listStore.list);
 };
 
 //Header and serach
@@ -38,10 +39,9 @@ const searchDivContainer = document.createElement('div');
 const searchInput = document.createElement('input');
 const searchBtn = document.createElement('button');
 
-searchBtn.addEventListener('click', async () => {
+searchBtn.addEventListener('click',  async() => {
   await addItemToList(searchInput.value);
   searchInput.value = '';
-  updateList();
 });
 
 
@@ -72,9 +72,10 @@ headerContainer.appendChild(searchDivContainer);
 // // debugger;
 // const updatedText = await record?.data.text();
 
-const mainElement = document.querySelector<HTMLDivElement>('#mainContent')!;
-// mainElement.innerHTML = `updatedText: ${updatedText}`;
-// console.log('updateResult', await record?.data.text());
 const hi = `are you thinking through this?`;
 
-document.querySelector<HTMLDivElement>('#mainContent')!.innerHTML = hi;
+if (listStore.list.length === 0) {
+  document.querySelector<HTMLDivElement>('#mainContent')!.innerHTML = hi;
+} else {
+  updateList();
+}
