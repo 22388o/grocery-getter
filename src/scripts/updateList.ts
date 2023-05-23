@@ -18,11 +18,13 @@ const changeItemStatus = async (item):Promise<void> => {
             break;
         }
     }
-    const {record} = await web5.dwn.records.read({
+
+    const { record } = await web5.dwn.records.read({
         message: {
-            recordId: toggledItem?.id,
+          recordId: toggledTodo.id,
         }
-    })
+      });
+
     await record.update({
         data: updatedToggledItem,
     });
