@@ -4,7 +4,7 @@ import { createElements } from "../ui-lib/createElement";
 
 const changeItemStatus = (id: string, isMarkedOut: boolean):void => {
     debugger;
-    const item = document.querySelector<HTMLLIElement>(id)!;
+    const item = document.getElementById(id)!;
     item.setAttribute('isMarkedOut', isMarkedOut.toString());
     if (isMarkedOut) {
         item.classList.add('marked-out');
@@ -24,12 +24,12 @@ export const updateList = (updatedList: Item[]) => {
             const li = createElements({
                 type: 'li',
                 attr: [
-                    { name: 'class', value: 'grocery-list-item' },
+                    { name: 'class', value: item.isMarkedOut ? 'grocery-list marked-out' : 'grocery-list-item' },
                     { name: 'id', value: item.id },
-                    { name: 'isMarkedOut', value: 'false' }
+                    { name: 'isMarkedOut', value: item.isMarkedOut.toString() },
                 ]
             });
-            li.addEventListener('click', changeItemStatus.bind(null,`#${item.id}`, !item.isMarkedOut));
+            li.addEventListener('click', changeItemStatus.bind(null,item.id, !item.isMarkedOut));
             li.innerHTML = item.body;
             ul.appendChild(li);
         }

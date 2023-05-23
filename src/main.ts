@@ -21,6 +21,7 @@ const addItemToList = async (text: string):Promise<void> => {
     id: Date.now().toString(),
     body: text,
     date: Date.now(),
+    isMarkedOut: false,
   }
   const {record} = await web5.dwn.records.create({
     data: item,
