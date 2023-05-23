@@ -1,31 +1,10 @@
-import { Item, ListStore } from "../store/listStore";
-
-const listStore = new ListStore('gg-list-store');
-
+import { Item } from "../store/listStore";
+import { createElements } from "../ui-lib/createElement";
 
 
-interface CreateElementsParams {
-    type: string;
-    attr?: {readonly [key: string]: string}[];
-}
 
-const createElements = ({type, attr}:CreateElementsParams):HTMLElement => {
 
-    if (!type || type === '') {
-        throw new Error('type is required');
-    }
-    const element = document.createElement(type);
 
-    if (attr) {
-        attr.forEach((attribute) => {
-            if (attribute.name === 'class') {
-                element.classList.add(attribute.value);
-            }
-            element.setAttribute(attribute.name, attribute.value);
-        });
-    }
-    return element;
-};
 
 export const updateList =  (updatedList: Item[]) => {
     const main = document.querySelector<HTMLDivElement>('#mainContent')!;
