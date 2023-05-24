@@ -1,6 +1,6 @@
 //refactor all web5 methods to this file
 import { Web5 } from "@tbd54566975/web5";
-import { Item } from "../../store/listStore";
+import { Item, ItemData } from "../../store/listStore";
 
 const {web5} = await Web5.connect();
 
@@ -14,4 +14,17 @@ export const createRecord = async (item: any):Promise<Item> => {
     const data = await record?.data.json();
     const groceryItem = {record, data, id: record?.id} as Item;
     return groceryItem;
+};
+
+export const updateRecord = async (item: Item, itemData: ItemData):Promise<void> => {
+  const { record } = await web5.dwn.records.read({
+    message: {
+      recordId: item.id,
+    }
+  });
+
+  await record.update({
+    data: itemData,
+  });
+
 };

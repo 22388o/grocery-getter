@@ -1,9 +1,8 @@
 import { Item, ListStore } from "../store/listStore";
 import { createElements } from "../ui-lib/createElement";
-import { Web5 } from "@tbd54566975/web5";
+import { updateRecord } from "./web5/web5Helpers";
 
 const listStore = new ListStore('gg-list-store');
-const {web5} = await Web5.connect();
 
 
 async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
@@ -21,19 +20,11 @@ async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
         }
     }
 
-    if (!toggledItem) {
+    if (!toggledItem || !updatedToggledItem) {
         throw new Error('Item not found');
     }
-    const { record } = await web5.dwn.records.read({
-        message: {
-          recordId: toggledItem.id,
-        }
-      });
-
-    
-    await record.update({
-        data: updatedToggledItem,
-    });
+ 
+    await updateRecord(toggledItem, updatedToggledItem);
 
     if (toggledItem?.data.isMarkedOut) {
         itemElement.setAttribute('isMarkedOut', 'true');

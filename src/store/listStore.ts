@@ -1,5 +1,5 @@
 // import Item from const/interfaces
-type ItemData = {
+export type ItemData = {
   body: string;
   isMarkedOut: boolean;
   date: number;
