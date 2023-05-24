@@ -6,28 +6,31 @@ const listStore = new ListStore('gg-list-store');
 const {web5} = await Web5.connect();
 
 
-async function changeItemStatus ( item, event: MouseEvent):Promise<void> {
-    debugger;
+async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
     event.stopPropagation();
     let toggledItem;
     let updatedToggledItem;
-    const itemElement = document.getElementById(event?.currentTarget?.id)!;
+    const itemElement = document.getElementById((event?.currentTarget as HTMLElement).id)!;
     
     for(let gItem of listStore.list) {
-        if (gItem.id === event?.currentTarget?.id) {
+        if (gItem.id === (event?.currentTarget as HTMLElement).id) {
             toggledItem = gItem;
             toggledItem.data.isMarkedOut = !toggledItem.data.isMarkedOut;
             updatedToggledItem = {...toggledItem.data};
             break;
         }
     }
-    console.log('toggledItem', toggledItem);
+
+    if (!toggledItem) {
+        throw new Error('Item not found');
+    }
     const { record } = await web5.dwn.records.read({
         message: {
           recordId: toggledItem.id,
         }
       });
 
+    
     await record.update({
         data: updatedToggledItem,
     });

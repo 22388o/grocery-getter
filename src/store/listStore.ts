@@ -1,10 +1,13 @@
 // import Item from const/interfaces
-export type Item = {
-  record: any| undefined;
-  id: string | undefined;
+type ItemData = {
   body: string;
   isMarkedOut: boolean;
   date: number;
+};
+export type Item = {
+  record?: any| undefined;
+  id: string;
+  data: ItemData;
 }
   
 export class ListStore extends EventTarget {
