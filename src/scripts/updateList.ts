@@ -6,13 +6,15 @@ const listStore = new ListStore('gg-list-store');
 const {web5} = await Web5.connect();
 
 
-const changeItemStatus = async (item):Promise<void> => {
+async function changeItemStatus ( item, event: MouseEvent):Promise<void> {
+    debugger;
+    event.stopPropagation();
     let toggledItem;
     let updatedToggledItem;
-    const itemElement = document.getElementById(item.target.id)!;
+    const itemElement = document.getElementById(event?.currentTarget?.id)!;
     
     for(let gItem of listStore.list) {
-        if (gItem.id === item.target.id) {
+        if (gItem.id === event?.currentTarget?.id) {
             toggledItem = gItem;
             toggledItem.data.isMarkedOut = !toggledItem.data.isMarkedOut;
             updatedToggledItem = {...toggledItem.data};
@@ -43,23 +45,67 @@ const changeItemStatus = async (item):Promise<void> => {
 
 export const updateList = (updatedList: Item[]) => {
 
-    // now you need to get the record and pull the data out of it
-    // to make this work the right way. 
     const main = document.querySelector<HTMLDivElement>('#mainContent')!;
     main.innerHTML = '';
-    const ul = createElements({ type: 'ul', attr: [{ name: 'class', value: 'grocery-list' }, { name: 'id', value: 'groceryList' }] });
-    console.log('updatedList', updatedList);
+    const ul = createElements({ 
+        type: 'ul', 
+        attr: [
+            { name: 'class', value: 'grocery-list' }, 
+            { name: 'id', value: 'groceryList' }
+        ] 
+    });
+    
     updatedList.map(item => {
              const li = createElements({
                 type: 'li',
                 attr: [
-                    { name: 'class', value: item.data.isMarkedOut ? 'grocery-list marked-out' : 'grocery-list-item' },
+                    { name: 'class', value: item.data.isMarkedOut ? 'grocery-list' : 'grocery-list-item' },
                     { name: 'id', value: item.id },
                     { name: 'isMarkedOut', value: item.data.isMarkedOut.toString() },
                 ]
             });
-            li.addEventListener('click', changeItemStatus.bind(item.data));
-            li.innerHTML = item.data.body;
+            const liContainer = createElements({ 
+                type: 'div', 
+                attr: [
+                    { name: 'class', value: 'grocery-list-item-container' }
+                ] 
+            });
+            const liText = createElements({ 
+                type: 'div', 
+                attr: [
+                    { name: 'class', value: 'grocery-list-item-text'},
+                    { name: 'id', value: item?.id?.toString() },
+                ] 
+            });
+            liText.addEventListener('click', function(event: MouseEvent){
+                changeItemStatus.call(this, item, event);
+            });            
+            const liButtonContainer = createElements({ 
+                type: 'div', 
+                attr: [
+                    { name: 'class', value: 'grocery-list-item-button-container' }
+                ] 
+            });
+            const liEditButton = createElements({ 
+                type: 'div', 
+                attr: [
+                    { name: 'class', value: 'grocery-list-edit-button' }
+                ] 
+            });
+            liEditButton.textContent = 'Edit';
+            const liDeleteButton = createElements({ 
+                type: 'div', 
+                attr: [
+                    { name: 'class', value: 'grocery-list-delete-button' }
+                ] 
+            });
+            liDeleteButton.textContent = 'Delete';
+            liButtonContainer.appendChild(liEditButton);
+            liButtonContainer.appendChild(liDeleteButton);
+            liText.innerHTML = item.data.body;
+            liContainer.appendChild(liText);
+            liContainer.appendChild(liButtonContainer);
+            li.appendChild(liContainer);
             ul.appendChild(li);
     });
     main.appendChild(ul);

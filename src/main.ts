@@ -3,13 +3,11 @@ import { Web5 } from '@tbd54566975/web5';
 import { library, icon } from '@fortawesome/fontawesome-svg-core';
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ListStore } from './store/listStore';
-import { Item } from './store/listStore';
 import { updateList } from './scripts/updateList';
 
 library.add(faMagnifyingGlass, faPlus);
 
-const {web5, did: myDid } = await Web5.connect();
-console.log('myDid', myDid);
+const {web5, } = await Web5.connect();
 
 
 
@@ -31,7 +29,6 @@ const addItemToList = async (text: string):Promise<void> => {
   const data = await record?.data.json();
   const groceryItem = {record, data, id: record?.id};
   listStore.add(groceryItem);
-  console.log('listStore.list', listStore.list);
   updateList(listStore.list);
 
 };
@@ -58,22 +55,6 @@ searchBtn.innerHTML = icon({ prefix: 'fas', iconName: 'plus' }).html.join('');
 searchDivContainer.appendChild(searchBtn);
 searchDivContainer.classList.add('search-container');
 headerContainer.appendChild(searchDivContainer);
-
-
-
-//Web5
-
-
- 
-
-// console.log('record', record);
-
-
-// console.log('readResult', readResult);
-
-// const updateResult = await record?.update({data: "Hello, I'm updated!"});
-// // debugger;
-// const updatedText = await record?.data.text();
 
 const hi = `are you thinking through this?`;
 

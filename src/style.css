@@ -36,6 +36,12 @@ h1 {
   line-height: 1.1;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 #app {
   width: 100%;
   max-width: 1280px;
@@ -94,17 +100,35 @@ footer {
   color: #777;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.grocery-list-item-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 1rem;
+  border-bottom: 1px solid #777;
 }
+
+.grocery-list-item-text {
+  width: 60%;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.grocery-list-item-button-container{
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.control-btn {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 button:hover {
   border-color: #646cff;
 }
