@@ -104,18 +104,18 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.25rem 1rem;
+  padding: 0.5rem 1rem;
   border-bottom: 1px solid #777;
 }
 
 .grocery-list-item-text {
-  width: 60%;
+  width: 70%;
   font-size: 1.2rem;
   font-weight: 500;
 }
 
 .grocery-list-item-button-container{
-  width: 40%;
+  width: 25%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -127,6 +127,9 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 0.5rem;
+  border: 1px solid #777;
+  cursor: pointer;
 }
 
 button:hover {

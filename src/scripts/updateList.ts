@@ -95,14 +95,16 @@ export const updateList = (updatedList: Item[]) => {
                     { name: 'class', value: 'grocery-list-edit-button' }
                 ] 
             });
-            liEditButton.textContent = 'Edit';
+            liEditButton.textContent = 'E';
+            liEditButton.classList.add('control-btn');
             const liDeleteButton = createElements({ 
                 type: 'div', 
                 attr: [
                     { name: 'class', value: 'grocery-list-delete-button' }
                 ] 
             });
-            liDeleteButton.textContent = 'Delete';
+            liDeleteButton.textContent = 'D';
+            liDeleteButton.classList.add('control-btn');
             liButtonContainer.appendChild(liEditButton);
             liButtonContainer.appendChild(liDeleteButton);
             liText.innerHTML = item.data.body;
@@ -112,8 +114,4 @@ export const updateList = (updatedList: Item[]) => {
             ul.appendChild(li);
     });
     main.appendChild(ul);
-};
-
-
- // if (item.id) { // Check if item.id is defined
-       
+};       
