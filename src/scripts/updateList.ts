@@ -94,6 +94,7 @@ export const updateList = (updatedList: Item[]) => {
                     { name: 'class', value: 'grocery-list-delete-button' }
                 ] 
             });
+            
             liDeleteButton.textContent = 'D';
             liDeleteButton.classList.add('control-btn');
             liButtonContainer.appendChild(liEditButton);
@@ -101,6 +102,32 @@ export const updateList = (updatedList: Item[]) => {
             liText.innerHTML = item.data.body;
             liContainer.appendChild(liText);
             liContainer.appendChild(liButtonContainer);
+            liEditButton.addEventListener('click', function(event: MouseEvent){
+                event.stopPropagation();
+                // change text container into input with value of text container
+                liContainer.innerHTML = '';
+                const liInput = createElements({
+                    type: 'input',
+                    attr: [
+                        { name: 'type', value: 'text' }, 
+                        { name: 'value', value: item.data.body },
+                        {name: 'class', value: 'search-input'}
+                    ]
+                });
+                liInput.classList.add('grocery-list-item-input');
+                liContainer.appendChild(liInput);
+                const liSaveButton = createElements({
+                    type: 'button',
+                    attr: [{ name: 'class', value: 'grocery-list-save-button' }]
+                });
+                liSaveButton.textContent = 'S';
+                liSaveButton.classList.add('control-btn');
+                liButtonContainer.removeChild(liEditButton);
+                liButtonContainer.removeChild(liDeleteButton);
+                liButtonContainer.appendChild(liSaveButton);
+                liContainer.appendChild(liButtonContainer);
+                // change edit button to save button with checkmark
+            });
             li.appendChild(liContainer);
             ul.appendChild(li);
     });
