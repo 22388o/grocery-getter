@@ -1,7 +1,7 @@
 import { createElements } from './createElement';
 import { Item } from '../store/listStore';
 
-const renderEditInput = (item: Item, event: MouseEvent):void  => {
+export const renderEditInput = (item: Item, event: MouseEvent):void  => {
     event.stopPropagation();
     const liContainer = document.querySelector('.grocery-list-item-container')!;
     const liButtonContainer = liContainer.querySelector<HTMLDivElement>('.grocery-list-item-button-container')!;

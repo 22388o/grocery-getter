@@ -80,11 +80,7 @@ export const updateList = (updatedList: Item[]) => {
             const buttonContainer = renderButtonItemControls(item);
             liText.innerHTML = item.data.body;
             liContainer.appendChild(liText);
-            liContainer.appendChild(buttonContainer);
-            const editButton = buttonContainer.querySelector('.grocery-list-edit-button')!;
-            console.log(editButton);
-            
-           
+            liContainer.appendChild(buttonContainer);           
             li.appendChild(liContainer);
             ul.appendChild(li);
     });
