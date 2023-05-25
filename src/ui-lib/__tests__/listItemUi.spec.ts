@@ -66,8 +66,7 @@ describe('List Item UI Edit Input Tests', () => {
     test('it should create an input when edit button is clicked', () => {
         test('it should create an input when edit button is clicked', () => {
             // Arrange
-            const event = new Event('MouseEvent');
-            event.initEvent('click', true, true);
+            const event = new Event('click', {bubbles: false});
         
             // Act
             // @ts-ignore
@@ -77,5 +76,15 @@ describe('List Item UI Edit Input Tests', () => {
             const element = document.querySelector('.grocery-list-item-input');
             expect(element?.tagName).toBe('INPUT');
           });
+    });
+    test.skip('input should have the correct value', () => {
+        // Arrange
+        const event = new Event('click', {bubbles: false});
+        // Act
+        // @ts-ignore
+        renderEditInput(mockItem, event);
+        // Assert
+        const element = document.querySelector('.grocery-list-item-input');
+        expect(element?.textContent).toBe('test');
     });
 });
