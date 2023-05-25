@@ -2,6 +2,9 @@ import { createElements } from './createElement';
 import { Item } from '../store/listStore';
 
 export const renderEditInput = (item: Item, event: MouseEvent):void  => {
+    if((item === undefined || null ) || event === undefined || null) {
+        throw new Error('item and event are required');
+    }
     event.stopPropagation();
     const liContainer = document.querySelector('.grocery-list-item-container')!;
     const liButtonContainer = liContainer.querySelector<HTMLDivElement>('.grocery-list-item-button-container')!;
@@ -33,6 +36,9 @@ export const renderEditInput = (item: Item, event: MouseEvent):void  => {
 };
 
 export const renderButtonItemControls = (item: Item):HTMLElement => {
+    if(item === undefined || null ) {
+        throw new Error('could not find item');
+    }
     const liButtonContainer = createElements({ 
         type: 'div', 
         attr: [
@@ -40,7 +46,7 @@ export const renderButtonItemControls = (item: Item):HTMLElement => {
         ] 
     });
     const liEditButton = createElements({ 
-        type: 'div', 
+        type: 'button', 
         attr: [
             { name: 'class', value: 'grocery-list-edit-button' }
         ] 
@@ -48,7 +54,7 @@ export const renderButtonItemControls = (item: Item):HTMLElement => {
     liEditButton.textContent = 'E';
     liEditButton.classList.add('control-btn');
     const liDeleteButton = createElements({ 
-        type: 'div', 
+        type: 'button', 
         attr: [
             { name: 'class', value: 'grocery-list-delete-button' }
         ] 

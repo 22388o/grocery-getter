@@ -5,7 +5,13 @@ import { renderButtonItemControls, renderEditInput } from '../listItemUi';
 
 describe('List Item UI Tests', () => {
     let dom: JSDOM;
-
+    const mockItem = {
+        record: 'record-123', 
+        data: {body: 'test', 
+        id: '123', date: Date.now(), 
+        isMarkedOut: false}, 
+        id: '123'
+    };
     beforeEach(() => {
         dom = new JSDOM('<!DOCTYPE html><html><body></body></html>');
         global.document = dom.window.document;
@@ -15,20 +21,28 @@ describe('List Item UI Tests', () => {
     afterEach(() => {
         dom.window.close();
     });
+    test('it should throw an error if no item is provided', () => {
+        // Arrange
+        const item = null || undefined;
+        // Act
+        // Assert
+        expect(() => renderButtonItemControls(item)).toThrow('could not find item');
+    });
     test('it creates a button container', () => {
         // Arrange
-        const item = {
-            record: 'record-123', 
-            data: {body: 'test', 
-            id: '123', date: Date.now(), 
-            isMarkedOut: false}, 
-            id: '123'
-        };
+       
         // Act
-        const element = renderButtonItemControls(item);
+        const element = renderButtonItemControls(mockItem);
         // Assert
         expect(element.classList.contains('grocery-list-item-button-container')).toBe(true);
     });
-
+    test('container should have 2 buttons', () => {
+        // Arrange
+       
+        // Act
+        const element = renderButtonItemControls(mockItem);
+        // Assert
+        expect(element.querySelectorAll('button').length).toBe(2);
+    });
 
 });
