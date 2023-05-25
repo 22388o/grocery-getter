@@ -34,6 +34,7 @@ describe('List Item UI Button Tests', () => {
         const item = null || undefined;
         // Act
         // Assert
+        // @ts-ignore
         expect(() => renderButtonItemControls(item)).toThrow('could not find item');
     });
     test('it creates a button container', () => {
@@ -59,6 +60,7 @@ describe('List Item UI Edit Input Tests', () => {
         const event = null || undefined;
         // Act
         // Assert
+        // @ts-ignore
         expect(() => renderEditInput(item, event)).toThrow('item and event are required');
     });  
     test('it should create an input when edit button is clicked', () => {
@@ -68,6 +70,7 @@ describe('List Item UI Edit Input Tests', () => {
             event.initEvent('click', true, true);
         
             // Act
+            // @ts-ignore
             renderEditInput(mockItem, event);
         
             // Assert
