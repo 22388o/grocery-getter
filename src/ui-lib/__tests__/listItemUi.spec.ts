@@ -22,6 +22,9 @@ beforeEach(() => {
     global.document = dom.window.document;
     const listContainer = document.createElement('div');
     listContainer.classList.add('grocery-list-item-container');
+    const listButtonContainer = document.createElement('div');
+    listButtonContainer.classList.add('grocery-list-item-button-container');
+    listContainer.appendChild(listButtonContainer);
 });
 afterEach(() => {
     dom.window.close();
