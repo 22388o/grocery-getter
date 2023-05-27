@@ -59,7 +59,6 @@ export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> =>
     if (!deletedItem) {
         return;
     }
-
     listStore.remove({id: deletedItem.id});
 
     await deleteRecord(deletedItem.id);
@@ -86,7 +85,9 @@ export const editItem = async (item: Item, event: MouseEvent):Promise<void> => {
     if (!toggledItem || !updatedToggledItem) {
         throw new Error('Item not found');
     }
+    debugger;
     await updateRecord(toggledItem, updatedToggledItem);
+    listStore.update(toggledItem);
     updateList(listStore.list);
 };
 
