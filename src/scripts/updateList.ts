@@ -2,7 +2,6 @@ import { Item, ListStore } from "../store/listStore";
 import { createElements } from "../ui-lib/createElement";
 import { deleteRecord, updateRecord } from "./web5/web5Helpers";
 import { renderButtonItemControls } from "../ui-lib/listItemUi";
-import { Web5 } from "@tbd54566975/web5";
 
 const listStore = new ListStore('gg-list-store');
 
@@ -60,7 +59,7 @@ export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> =>
     if (!deletedItem) {
         return;
     }
-    
+
     listStore.remove({id: deletedItem.id});
 
     await deleteRecord(deletedItem.id);
