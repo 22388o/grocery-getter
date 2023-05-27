@@ -69,25 +69,34 @@ export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> =>
 export const editItem = async (item: Item, event: MouseEvent):Promise<void> => {
     event.stopPropagation();
     let toggledItem;
-    let updatedToggledItem;
+    let editedItem;
+    let updatedEditedItem;
     const input = document.querySelector('.grocery-list-item-input') as HTMLInputElement;
     const updatedText = input.value;
  
-    for(let gItem of listStore.list) {
-        if (gItem.id === item.id) {
-            toggledItem = gItem;
-            toggledItem.data.body = updatedText;
-            updatedToggledItem = {...toggledItem.data};
-            break;
-        }
-    }
+    // for(let gItem of listStore.list) {
+    //     if (gItem.id === item.id) {
+    //         toggledItem = gItem;
+    //         toggledItem.data.body = updatedText;
+    //         updatedToggledItem = {...toggledItem.data};
+    //         break;
+    //     }
+    // }
+
+    editedItem = listStore.list.find((i) => i.id === item?.id);
     
-    if (!toggledItem || !updatedToggledItem) {
+    if (!editedItem) {
         throw new Error('Item not found');
     }
-    debugger;
-    await updateRecord(toggledItem, updatedToggledItem);
-    listStore.update(toggledItem);
+    editedItem.data.body = updatedText;
+    updatedEditedItem = {...editedItem.data};
+    
+    // if (!toggledItem || !updatedToggledItem) {
+    //     throw new Error('Item not found');
+    // }
+
+    await updateRecord(editedItem, updatedEditedItem);
+    listStore.update(editedItem);
     updateList(listStore.list);
 };
 
