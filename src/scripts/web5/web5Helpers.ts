@@ -28,3 +28,11 @@ export const updateRecord = async (item: Item, itemData: ItemData):Promise<void>
   });
 
 };
+
+export const deleteRecord = async (id: string):Promise<void> => {
+  await web5.dwn.records.delete({
+    message: {
+      recordId: id,
+    }
+  });
+};
