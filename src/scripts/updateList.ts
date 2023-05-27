@@ -41,13 +41,13 @@ async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
 
 export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> => {
     // delete item from list
+    debugger;
     event.stopPropagation();
     let deletedItem;
     let index = 0; 
-    const liContainer = document.querySelector('.grocery-list-item-container')!;
-    const liElement = liContainer.closest('.grocery-list')!;
+    
     for(let gItem of listStore.list) {
-        if (gItem.id === liElement.id) {
+        if (gItem.id === item.id) {
             deletedItem = gItem;
             break;
         }
@@ -77,7 +77,7 @@ export const editItem = async (item: Item, event: MouseEvent):Promise<void> => {
     const updatedText = input.value;
  
     for(let gItem of listStore.list) {
-        if (gItem.id === liElement.id) {
+        if (gItem.id === item.id) {
             toggledItem = gItem;
             toggledItem.data.body = updatedText;
             updatedToggledItem = {...toggledItem.data};
