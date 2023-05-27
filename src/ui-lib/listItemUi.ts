@@ -1,5 +1,6 @@
 import { createElements } from './createElement';
 import { Item } from '../store/listStore';
+import { editItem } from '../scripts/updateList';
 
 export const renderEditInput = (item: Item, event: MouseEvent):void  => {
     if((item === undefined || null ) || event === undefined || null) {
@@ -24,10 +25,16 @@ export const renderEditInput = (item: Item, event: MouseEvent):void  => {
         liContainer.appendChild(liInput);
         const liSaveButton = createElements({
             type: 'button',
-            attr: [{ name: 'class', value: 'grocery-list-save-button' }]
+            attr: [
+                { name: 'class', value: 'grocery-list-save-button' },
+                {name: 'type', value: 'button'}
+            ]
         });
         liSaveButton.textContent = 'S';
         liSaveButton.classList.add('control-btn');
+        liSaveButton.addEventListener('click', function(event: MouseEvent){
+            editItem(item, event);
+        });
         liButtonContainer.removeChild(liEditButton);
         liButtonContainer.removeChild(liDeleteButton);
         liButtonContainer.appendChild(liSaveButton);

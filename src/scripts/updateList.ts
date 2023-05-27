@@ -22,6 +22,7 @@ async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
         }
     }
 
+
     if (!toggledItem || !updatedToggledItem) {
         throw new Error('Item not found');
     }
@@ -37,6 +38,31 @@ async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
     }
 };
 
+export const editItem = async (item: Item, event: MouseEvent):Promise<void> => {
+    event.stopPropagation();
+    let toggledItem;
+    let updatedToggledItem;
+    const input = document.querySelector('.grocery-list-item-input') as HTMLInputElement;
+    const liContainer = document.querySelector('.grocery-list-item-container')!;
+    const liElement = liContainer.closest('.grocery-list')!;
+    console.log(liElement.id);
+    const updatedText = input.value;
+ 
+    for(let gItem of listStore.list) {
+        if (gItem.id === liElement.id) {
+            toggledItem = gItem;
+            toggledItem.data.body = updatedText;
+            updatedToggledItem = {...toggledItem.data};
+            break;
+        }
+    }
+    
+    if (!toggledItem || !updatedToggledItem) {
+        throw new Error('Item not found');
+    }
+    await updateRecord(toggledItem, updatedToggledItem);
+    updateList(listStore.list);
+};
 
 
 
