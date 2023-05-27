@@ -1,12 +1,12 @@
 import { Item, ListStore } from "../store/listStore";
 import { createElements } from "../ui-lib/createElement";
 import { deleteRecord, updateRecord } from "./web5/web5Helpers";
-import { renderButtonItemControls } from "../ui-lib/listItemUi";
+import { renderButtonItemControls, renderListItemText } from "../ui-lib/listItemUi";
 
 const listStore = new ListStore('gg-list-store');
 
 
-async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
+export async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
     event.stopPropagation();
     let toggledItem;
     let updatedToggledItem;
@@ -44,15 +44,6 @@ export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> =>
     }
     event.stopPropagation();
     let deletedItem: Item | undefined;
-    let index = 0; 
-    
-    for(let gItem of listStore.list) {
-        if (gItem.id === item.id) {
-            deletedItem = gItem;
-            break;
-        }
-        index++;
-    }
 
     deletedItem = listStore.list.find((item) => item.id === deletedItem?.id);
 
@@ -68,33 +59,20 @@ export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> =>
 
 export const editItem = async (item: Item, event: MouseEvent):Promise<void> => {
     event.stopPropagation();
-    let toggledItem;
     let editedItem;
     let updatedEditedItem;
     const input = document.querySelector('.grocery-list-item-input') as HTMLInputElement;
     const updatedText = input.value;
  
-    // for(let gItem of listStore.list) {
-    //     if (gItem.id === item.id) {
-    //         toggledItem = gItem;
-    //         toggledItem.data.body = updatedText;
-    //         updatedToggledItem = {...toggledItem.data};
-    //         break;
-    //     }
-    // }
-
+   
     editedItem = listStore.list.find((i) => i.id === item?.id);
-    
+
     if (!editedItem) {
         throw new Error('Item not found');
     }
     editedItem.data.body = updatedText;
     updatedEditedItem = {...editedItem.data};
     
-    // if (!toggledItem || !updatedToggledItem) {
-    //     throw new Error('Item not found');
-    // }
-
     await updateRecord(editedItem, updatedEditedItem);
     listStore.update(editedItem);
     updateList(listStore.list);
@@ -129,16 +107,7 @@ export const updateList = (updatedList: Item[]) => {
                     { name: 'class', value: 'grocery-list-item-container' }
                 ] 
             });
-            const liText = createElements({ 
-                type: 'div', 
-                attr: [
-                    { name: 'class', value: 'grocery-list-item-text'},
-                    { name: 'id', value: item?.id?.toString() },
-                ] 
-            });
-            liText.addEventListener('click', function(event: MouseEvent){
-                changeItemStatus.call(this, item, event);
-            });            
+            const liText = renderListItemText(item);           
             const buttonContainer = renderButtonItemControls(item);
             liText.innerHTML = item.data.body;
             liContainer.appendChild(liText);

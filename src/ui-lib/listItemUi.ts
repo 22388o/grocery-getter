@@ -1,6 +1,31 @@
 import { createElements } from './createElement';
 import { Item } from '../store/listStore';
-import { editItem, deleteItem } from '../scripts/updateList';
+import { editItem, deleteItem, changeItemStatus } from '../scripts/updateList';
+
+
+export const renderListItemText = (item: Item):HTMLElement => {
+    if(item === undefined || null ) {
+        throw new Error('could not find item');
+    }
+    const liTextContainer = createElements({
+        type: 'div',
+        attr: [
+            { name: 'class', value: 'grocery-list-item-text' }
+        ]
+    });
+    const liText = createElements({
+        type: 'div',
+        attr: [
+            { name: 'class', value: 'grocery-list-item-text' }
+        ]
+    });
+    liText.addEventListener('click', function(event: MouseEvent){
+        changeItemStatus.call(this, item, event);
+    });
+    liText.textContent = item.data.body;
+    liTextContainer.appendChild(liText);
+    return liTextContainer;
+};
 
 export const renderEditInput = (item: Item, event: MouseEvent):void  => {
     if((item === undefined || null ) || event === undefined || null) {
@@ -34,10 +59,28 @@ export const renderEditInput = (item: Item, event: MouseEvent):void  => {
         liSaveButton.classList.add('control-btn');
         liSaveButton.addEventListener('click', function(event: MouseEvent){
             editItem(item, event);
+        }); 
+        const liCancelButton = createElements({
+            type: 'button',
+            attr: [{ name: 'class', value: 'grocery-list-cancel-button'}]
+        });
+        liCancelButton.textContent = 'C';
+        liCancelButton.classList.add('control-btn');
+        liCancelButton.addEventListener('click', function(event: MouseEvent){
+            event.stopPropagation();
+            liContainer.innerHTML = '';
+            const listText = renderListItemText(item);
+            debugger;
+            liContainer.appendChild(listText);
+            liButtonContainer.innerHTML = '';
+            liButtonContainer.appendChild(liEditButton);
+            liButtonContainer.appendChild(liDeleteButton);
+            liContainer.appendChild(liButtonContainer);
         });
         liButtonContainer.removeChild(liEditButton);
         liButtonContainer.removeChild(liDeleteButton);
         liButtonContainer.appendChild(liSaveButton);
+        liButtonContainer.appendChild(liCancelButton);
         liContainer.appendChild(liButtonContainer);
         liInput.focus();
 };
