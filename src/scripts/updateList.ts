@@ -4,7 +4,6 @@ import { deleteRecord, updateRecord } from "./web5/web5Helpers";
 import { renderButtonItemControls } from "../ui-lib/listItemUi";
 import { Web5 } from "@tbd54566975/web5";
 
-const {web5} = await Web5.connect();
 const listStore = new ListStore('gg-list-store');
 
 
@@ -15,7 +14,7 @@ async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
     const itemElement = document.getElementById((event?.currentTarget as HTMLElement).id)!;
     
     for(let gItem of listStore.list) {
-        if (gItem.id === (event?.currentTarget as HTMLElement).id) {
+        if (gItem.id === item.id) {
             toggledItem = gItem;
             toggledItem.data.isMarkedOut = !toggledItem.data.isMarkedOut;
             updatedToggledItem = {...toggledItem.data};
@@ -40,10 +39,12 @@ async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
 };
 
 export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> => {
-    // delete item from list
-    debugger;
+
+    if (item === undefined || null || event === undefined || null) {
+        throw new Error('item and event are required');
+    }
     event.stopPropagation();
-    let deletedItem;
+    let deletedItem: Item | undefined;
     let index = 0; 
     
     for(let gItem of listStore.list) {
@@ -54,11 +55,13 @@ export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> =>
         index++;
     }
 
+    deletedItem = listStore.list.find((item) => item.id === deletedItem?.id);
+
     if (!deletedItem) {
         return;
     }
-    const deletedItemId = deletedItem.id;
-    listStore.remove({id: deletedItemId});
+    
+    listStore.remove({id: deletedItem.id});
 
     await deleteRecord(deletedItem.id);
     
