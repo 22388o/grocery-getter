@@ -123,3 +123,27 @@ export const renderButtonItemControls = (item: Item):HTMLElement => {
 
     return liButtonContainer;
 };
+
+export const renderListItem = (item: Item):HTMLElement => {
+    const li = createElements({
+        type: 'li',
+        attr: [
+            { name: 'class', value: item.data.isMarkedOut ? 'grocery-list' : 'grocery-list-item' },
+            { name: 'id', value: item.id },
+            { name: 'isMarkedOut', value: item.data.isMarkedOut.toString() },
+        ]
+    });
+    const liContainer = createElements({ 
+        type: 'div', 
+        attr: [
+            { name: 'class', value: 'grocery-list-item-container' }
+        ] 
+    });
+    const liText = renderListItemText(item);           
+    const buttonContainer = renderButtonItemControls(item);
+    liText.innerHTML = item.data.body;
+    liContainer.appendChild(liText);
+    liContainer.appendChild(buttonContainer);           
+    li.appendChild(liContainer);
+    return li;
+}
