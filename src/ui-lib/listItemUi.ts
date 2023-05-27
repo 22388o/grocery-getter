@@ -1,6 +1,6 @@
 import { createElements } from './createElement';
 import { Item } from '../store/listStore';
-import { editItem } from '../scripts/updateList';
+import { editItem, deleteItem } from '../scripts/updateList';
 
 export const renderEditInput = (item: Item, event: MouseEvent):void  => {
     if((item === undefined || null ) || event === undefined || null) {
@@ -66,7 +66,9 @@ export const renderButtonItemControls = (item: Item):HTMLElement => {
             { name: 'class', value: 'grocery-list-delete-button' }
         ] 
     });
-
+    liDeleteButton.addEventListener('click', function(event: MouseEvent){
+        deleteItem.call(this, item, event);
+    });
     liEditButton.addEventListener('click', function(event: MouseEvent){
         renderEditInput.call(this, item, event);
     });

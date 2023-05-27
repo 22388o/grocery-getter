@@ -2,8 +2,9 @@ import { Item, ListStore } from "../store/listStore";
 import { createElements } from "../ui-lib/createElement";
 import { updateRecord } from "./web5/web5Helpers";
 import { renderButtonItemControls } from "../ui-lib/listItemUi";
+import { Web5 } from "@tbd54566975/web5";
 
-
+const {web5} = await Web5.connect();
 const listStore = new ListStore('gg-list-store');
 
 
@@ -38,6 +39,34 @@ async function changeItemStatus ( item: Item, event: MouseEvent):Promise<void> {
     }
 };
 
+export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> => {
+    // delete item from list
+    event.stopPropagation();
+    let deletedItem;
+    let index = 0; 
+    const liContainer = document.querySelector('.grocery-list-item-container')!;
+    const liElement = liContainer.closest('.grocery-list')!;
+    for(let gItem of listStore.list) {
+        if (gItem.id === liElement.id) {
+            deletedItem = gItem;
+            break;
+        }
+        index++;
+    }
+
+    if (!deletedItem) {
+        return;
+    }
+    const deletedItemId = deletedItem.id;
+    listStore.remove({id: deletedItemId});
+    await web5.dwn.records.delete({
+        message: {
+            recordId: deletedItem.id,
+        }
+    })
+    updateList(listStore.list);
+}
+
 export const editItem = async (item: Item, event: MouseEvent):Promise<void> => {
     event.stopPropagation();
     let toggledItem;
@@ -45,7 +74,6 @@ export const editItem = async (item: Item, event: MouseEvent):Promise<void> => {
     const input = document.querySelector('.grocery-list-item-input') as HTMLInputElement;
     const liContainer = document.querySelector('.grocery-list-item-container')!;
     const liElement = liContainer.closest('.grocery-list')!;
-    console.log(liElement.id);
     const updatedText = input.value;
  
     for(let gItem of listStore.list) {

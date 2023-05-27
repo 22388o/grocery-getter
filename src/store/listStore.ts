@@ -42,6 +42,7 @@ export class ListStore extends EventTarget {
     this._saveNotes();
   }
   remove({ id }: { id: string }) { 
+    debugger;
     this.list = this.list.filter((item) => item.id !== id);
     this._saveNotes();
   }
