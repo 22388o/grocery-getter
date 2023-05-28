@@ -1,4 +1,5 @@
-import { afterEach, beforeEach, describe, expect, test } from 'vitest'; 
+import { describe, expect, test } from '@jest/globals';
+import { beforeEach, afterEach } from '@jest/globals';
 import { JSDOM } from 'jsdom';
 
 import { createElements } from '../createElement';

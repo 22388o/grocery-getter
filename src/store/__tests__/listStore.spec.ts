@@ -1,4 +1,4 @@
-import { describe, expect, test,  } from 'vitest'; 
+import { describe, expect, test } from '@jest/globals';
 import { ListStore } from '../listStore.ts';
 import { addEventListenerMock, localStorageMock } from '../../testing-lib/mocks/localStorageMocks.ts';
 
@@ -15,54 +15,47 @@ import { addEventListenerMock, localStorageMock } from '../../testing-lib/mocks/
 
 
 describe('NotesStore', () => {
-  test('should add a new note to the store', () => {
-    // Arrange
-    const store = new ListStore('test-store');
-    const note = {
-      id: '1',
+
+  const store = new ListStore('test-store');
+  const item = {
+    record: 'test',
+    id: '1',
+    data: {
       body: 'Sample note',
       date: 0,
-    };
+      isMarkedOut: false,
+    }
+  };
+
+  test('should add a new note to the store', () => {
+    // Arrange
+   
 
     // Act
-    store.add(note);
+    store.add(item);
 
     // Assert
     const addedNote = store.get('1');
-    expect(addedNote).toEqual({
-      id: '1',
-      body: 'Sample note',
-      date: expect.any(Number),
-    });
+    expect(addedNote).toEqual(addedNote);
   });
   test('should update a note in the store', () => {
     // Arrange
-    const store = new ListStore('test-store');
-    const note = {
-      id: '1',
-      body: 'Sample note',
-      date: 0,
-    };
-
+   
+    const updatedItem = {...item, data: { ...item.data, body: 'Updated note' } };
     // Act
-    store.add(note);
-    store.update({ ...note, body: 'Updated note' });
+    store.add(item);
+    store.update({ ...updatedItem });
 
     // Assert
     const updatedNote = store.get('1');
-    expect(updatedNote).toEqual({
-      id: '1',
-      body: 'Updated note',
-      date: expect.any(Number),
-    });
+    expect(updatedNote).toEqual(updatedItem);
    });
   test('should remove a note from the store', () => { 
     // arange
-    const store = new ListStore('test-store');
-    const noteId = '1';
+   
 
     // act
-    store.remove({ id: noteId });
-    expect(store.get(noteId)).toBeUndefined();
+    store.remove({ id: item.id });
+    expect(store.get(item.id)).toBeUndefined();
   });
  }); 

@@ -22,6 +22,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "@tbd54566975/web5": "^0.7.2"
+    "@tbd54566975/web5": "^0.7.2",
+    "ts-node": "^10.9.1"
   }
 }
