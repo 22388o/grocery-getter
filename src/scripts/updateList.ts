@@ -38,14 +38,13 @@ export async function changeItemStatus ( item: Item, event: MouseEvent):Promise<
 };
 
 export const deleteItem = async (item: Item, event: MouseEvent):Promise<void> => {
-
     if (item === undefined || null || event === undefined || null) {
         throw new Error('item and event are required');
     }
     event.stopPropagation();
-    let deletedItem: Item | undefined;
+    
 
-    deletedItem = listStore.list.find((item) => item.id === deletedItem?.id);
+    const deletedItem = listStore.list.find((i) => i.id === item?.id) as Item;
 
     if (!deletedItem) {
         return;

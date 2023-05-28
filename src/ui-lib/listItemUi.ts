@@ -70,7 +70,6 @@ export const renderEditInput = (item: Item, event: MouseEvent):void  => {
             event.stopPropagation();
             liContainer.innerHTML = '';
             const listText = renderListItemText(item);
-            debugger;
             liContainer.appendChild(listText);
             liButtonContainer.innerHTML = '';
             liButtonContainer.appendChild(liEditButton);
