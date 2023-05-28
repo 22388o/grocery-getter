@@ -77,8 +77,6 @@ export const editItem = async (item: Item, event: MouseEvent):Promise<void> => {
     updateList(listStore.list);
 };
 
-
-
 export const updateList = (updatedList: Item[]) => {
 
     const main = document.querySelector<HTMLDivElement>('#mainContent')!;
