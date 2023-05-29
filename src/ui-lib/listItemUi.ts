@@ -124,6 +124,10 @@ export const renderButtonItemControls = (item: Item):HTMLElement => {
 };
 
 export const renderListItem = (item: Item):HTMLElement => {
+    if(item === undefined || null ) {
+        console.error('could not render list item because item is undefined or null');
+        throw new Error('could not render item');
+    }
     const li = createElements({
         type: 'li',
         attr: [

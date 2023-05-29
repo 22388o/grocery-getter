@@ -2,16 +2,13 @@ import { describe, expect, test } from '@jest/globals';
 import { beforeEach, afterEach } from '@jest/globals';
 import { JSDOM } from 'jsdom';
 import { renderListItem } from '../listItemUi';
-import { ListStore } from '../../store/listStore';
 
 describe('Render List Item Tests', () => {
   let dom: JSDOM;
-  let mockStore: ListStore;
 
   beforeEach(() => {
     dom = new JSDOM('<!DOCTYPE html><p>Hello world</p>');
     global.document = dom.window.document;
-    mockStore = new ListStore('test-store');
   });
 
   afterEach(() => {
