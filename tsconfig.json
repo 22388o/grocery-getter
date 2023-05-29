@@ -18,10 +18,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
-    /* Top-level await */
-    "target": "es2017",
-    "module": "esnext"
   },
   "include": ["src"]
 }
